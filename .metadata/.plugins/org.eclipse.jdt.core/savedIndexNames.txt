@@ -1,0 +1,3 @@
+INDEX VERSION 1.131+C:\Users\utilisateur\Desktop\ARASTOCK\arastock_v2\.metadata\.plugins\org.eclipse.jdt.core
+3007034233.index
+3897345926.index
