@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aratech.demo.exceptions.RessourceNotFoundException;
 import com.aratech.demo.models.Coli;
+import com.aratech.demo.models.Livraison;
 import com.aratech.demo.models.User;
 import com.aratech.demo.repositories.UserRepository;
 import com.aratech.demo.service.CustomUserDetailService;
@@ -51,6 +54,21 @@ public class UserController {
 		user.setMotdepasse(encodedPassword);
 		
 		return userRepository.save(user);
+	}
+	
+	@GetMapping("/api/mesUsers")
+	public Page<User> getAllItems(Pageable page){
+		
+		return userRepository.findAll(page);
+	}
+	@GetMapping("/api/mesUsers/{id}")
+	public User getUser(@PathVariable(value="id") long idUser){
+		User u = null;
+		Optional<User> findItem = userRepository.findById(idUser);
+		if(findItem.isPresent()) {
+			u = findItem.get();
+		}
+		return u;
 	}
 
 }
