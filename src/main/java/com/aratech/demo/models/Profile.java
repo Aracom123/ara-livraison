@@ -42,9 +42,6 @@ public class Profile extends Auditable<String>{
 
     @Column(name="libelle")
     private String libelle;
-    
-    @OneToMany(mappedBy="profile")
-	private Collection<User> users;
 
     @ManyToMany
     @JoinTable(
@@ -69,14 +66,6 @@ public class Profile extends Auditable<String>{
 
 	public void setLibelle(String libelle) {
 		this.libelle = libelle;
-	}
-
-	public Collection<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Collection<User> users) {
-		this.users = users;
 	}
 
 	public Collection<Action> getActions() {
