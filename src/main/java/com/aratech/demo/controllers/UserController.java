@@ -48,13 +48,43 @@ public class UserController {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@PostMapping("/api/utilisateurs")
-	public User createArticle(@RequestBody User user) {
+	public User createUser(@RequestBody User user) {
 		
 		String encodedPassword = bCryptPasswordEncoder.encode(user.getMotdepasse());		
 		user.setMotdepasse(encodedPassword);
 		
 		return userRepository.save(user);
 	}
+	
+	@PutMapping("/api/utilisateurs/{id}")
+    User replaceEtudiant(@RequestBody User newUser, @PathVariable Long id) {
+
+      return userRepository.findById(id)
+        .map(user -> {
+        	user.setNom(newUser.getNom());
+        	user.setPrenom(newUser.getPrenom());
+        	user.setEmail(newUser.getEmail());
+        	user.setProfile(newUser.getProfile());
+          return userRepository.save(user);
+        })
+        .orElseGet(() -> {
+          newUser.setId(id);
+          return userRepository.save(newUser);
+        });
+    }
+	
+	@PutMapping("/api/utilisateurs/resetpw/{id}")
+    User changePassword(@PathVariable Long id, @RequestBody String newPassword) {
+		String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
+      return userRepository.findById(id)
+        .map(user -> {
+        	user.setMotdepasse(encodedPassword);
+          return userRepository.save(user);
+        })
+        .orElseGet(() -> {
+          return null;
+        });
+    }
 	
 	@GetMapping("/api/mesUsers")
 	public Page<User> getAllItems(Pageable page){

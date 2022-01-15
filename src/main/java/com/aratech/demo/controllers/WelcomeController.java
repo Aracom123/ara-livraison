@@ -44,7 +44,12 @@ public class WelcomeController {
 
 	@GetMapping("/")
 	public String welcome() {
-		return "Welcome to xadmin channel";
+		return "Application est demarrée";
+	}
+	
+	@GetMapping("/getPW")
+	public String getMdp() {
+		return bCryptPasswordEncoder.encode("admin");
 	}
 
 	@PostMapping("/authenticate")

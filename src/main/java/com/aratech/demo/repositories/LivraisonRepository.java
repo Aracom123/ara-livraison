@@ -16,6 +16,14 @@ public interface LivraisonRepository extends JpaRepository<Livraison, Long> {
 	@Query(value="SELECT * FROM livraison l WHERE l.livreur_id_livreur = ?1 and l.date_livraison = ?2", nativeQuery = true)
 	public Page<Livraison> getLivraisonParLivreurEtDate(@Param("idLivreur") long idLivreur, @Param("dateLivraison") Date date, Pageable pageable);
 	
+	@RestResource(path="/parClientEtDate")
+	@Query(value="SELECT * FROM livraison l WHERE l.client_id_client = ?1 and l.date_livraison = ?2", nativeQuery = true)
+	public Page<Livraison> getLivraisonParClientEtDate(@Param("idClient") long idClient, @Param("dateLivraison") Date date, Pageable pageable);
+	
+	@RestResource(path="/parClientEtDate")
+	@Query(value="SELECT * FROM livraison l WHERE l.client_id_client = ?1 and l.date_livraison = ?2 and l.livreur_id_livreur = ?3", nativeQuery = true)
+	public Page<Livraison> getLivraisonParClientEtDateEtLivreur(@Param("idClient") long idClient, @Param("dateLivraison") Date date, @Param("idLivreur") long idLivreur, Pageable pageable);
+	
 	@RestResource(path="/parLivreur")
 	@Query(value="SELECT * FROM livraison l WHERE l.livreur_id_livreur = ?1", nativeQuery = true)
 	public Page<Livraison> getLivraisonParLivreur(@Param("idLivreur") long idLivreur, Pageable pageable);
